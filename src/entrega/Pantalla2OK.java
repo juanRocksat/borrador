@@ -82,7 +82,6 @@ public class Pantalla2OK extends JFrame {
 		contentPane.setLayout(null);
 		table.setAutoResizeMode(MAXIMIZED_VERT);
 		
-		
 		table.updateUI();
 		if(true){
 			printDebugData(table);
