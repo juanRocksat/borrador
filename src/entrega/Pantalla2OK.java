@@ -14,7 +14,10 @@ import algoii.tp.db.estudiantes.Nota;
 import javax.swing.JScrollPane;
 import javax.swing.JButton;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JTable;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class Pantalla2OK extends JFrame {
 
@@ -49,6 +52,17 @@ public class Pantalla2OK extends JFrame {
 		getContentPane().setLayout(null);
 		
 		JButton btnSiguiente = new JButton("Siguiente");
+		btnSiguiente.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				try {
+					pantallaSiguiente.toFront();
+
+				} catch (Exception e2) {
+					// TODO: handle exception
+					JOptionPane.showMessageDialog(null, "Primero se debe abrir la pantalla1");
+				}
+			}
+		});
 		btnSiguiente.setBounds(178, 216, 89, 23);
 		getContentPane().add(btnSiguiente);
 		
@@ -66,6 +80,13 @@ public class Pantalla2OK extends JFrame {
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
+		table.setAutoResizeMode(MAXIMIZED_VERT);
+		
+		
+		table.updateUI();
+		if(true){
+			printDebugData(table);
+		}
 	}
 	private JTable crearTabla() {
 		 Object[][] data = this.crearMatrizDeNotas();
