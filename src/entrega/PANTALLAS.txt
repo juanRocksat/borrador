@@ -1,0 +1,58 @@
+#########ENTREGA 1############ 
+PANTALLA 1:
+Descripcion: Se muestra una lista que contiene a todos los alumnos
+registrados en la base de datos. Se debe permitir seleccionar una fila.
+Al presionar [Siguiente] se accede a la pantalla 2. Validar que se haya 
+seleccionado una fila de la tabla.
+
++----+------------+------+
+| Id | Nombre     | Nota |
++----+------------+------+
+|  1 | Pedro      |    9 |
+|  2 | Pablo      |    7 |
+|  3 | Juan       |   10 |
++----+------------+------+
+               [Siguiente]
+               
+PANTALLA 2:
+Descripcion: Se permite modificar los datos del alumnos seleccionado en la 
+pantalla anterior. Los campos deben aparecer inicializados con los valores
+actuales. Tener en cuenta que no se debe permitir modificar el ID.
+Al presionar [Siguiente] se hace el update en la DB y se regresa a la pantalla
+anterior que, ahora, debe mostrar los datos actualizados en la pantalla 2.
++--------------------------+
+| Id. Alumno: 2            |
+| Nombre: [Pablo         ] |
+| Nota:   [7             ] |
++--------------------------+
+                 [Siguiente]
+ 
+
+#########ENTREGA 2############      
+               
+PANTALLA 1:
+Descripcion: Se muestra una lista que contiene a todos los alumnos
+registrados en la base de datos. Se debe permitir seleccionar un item.
+Al presionar [Siguiente] se accede a la pantalla 2.
+
+		 +------------+----+
+Alumnos  | Pedro      |  * |
+		 +------------+----+
+		 
+               [Siguiente]
+               
+PANTALLA 2:
+Descripcion: Se permite modificar las notas del alumno seleccionado en la 
+pantalla anterior. Los campos deben aparecer inicializados con los valores
+actuales.
+Al presionar [Siguiente] se hace el update en la DB y se regresa a la pantalla
+principal. Al seleccionar el mismo alumno, debe mostrar las notas modificadas.
+
++--------+------------+------+
+| Examen | Letras     | Nota |
++--------+------------+------+
+|  1 	 | Nueve      |    9 |
+|  2	 | Siete      |    7 |
+|  3	 | Diez       |   10 |
++--------+------------+------+
+                 [Siguiente]
