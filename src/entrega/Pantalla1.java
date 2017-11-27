@@ -82,6 +82,8 @@ public class Pantalla1 extends JFrame implements ItemListener
 			public void actionPerformed(ActionEvent e) {
 				if(pantallaSiguiente==null || pantallaSiguiente.isActive())pantallaSiguiente=new Pantalla2OK(legajoSeleccionado);
 //				pantallaSiguiente=new Pantalla2OK();
+				if(pantallaSiguiente.getLegajoSeleccionado()!=legajoSeleccionado)pantallaSiguiente.toFront();
+				
 				pantallaSiguiente.setVisible(true);
 				pantallaSiguiente.toFront();//al frente
 				pantallaSiguiente.setPantallaSiguiente(pantallaActual);
@@ -108,6 +110,7 @@ public class Pantalla1 extends JFrame implements ItemListener
 		}
 	}
 	
+	@SuppressWarnings("unused")
 	private void agregarDatosAComboBox()
 	{
 		for(int i=1;i<=3;i++){
@@ -121,6 +124,10 @@ public class Pantalla1 extends JFrame implements ItemListener
 			comboBox.addItem(estudiantes.buscarEstudiante(i).getLegajo());
 			
 		}
+	}
+	public EstudiantesDB getEstudiantes()
+	{
+		return estudiantes;
 	}
 
 

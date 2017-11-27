@@ -33,10 +33,13 @@ public class Pantalla2OK extends JFrame implements Action {
 	private JPanel contentPane;
 	
 	public Pantalla1 pantallaSiguiente;
-	public int legajoSeleccionado=1;
+	public int legajoSeleccionado=0;
 	private JTable table;
 	
 	Estudiante alumnoSeleccionado;
+	EstudiantesDB estudiantes ;
+	Object[][] data =null;
+	public java.util.List<Nota> notas;
 
 	JScrollPane scrollPane = new JScrollPane(table);
 	/**
@@ -84,7 +87,7 @@ public class Pantalla2OK extends JFrame implements Action {
 		btnSiguiente.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try {
-//					pantallaSiguiente.toFront();
+					pantallaSiguiente.toFront();
 					pantallaSiguiente.setVisible(true);
 					printDebugData(table);
 				} catch (Exception e2) {
@@ -120,12 +123,12 @@ public class Pantalla2OK extends JFrame implements Action {
         });
 	}
 	private JTable crearTabla() {
-		 Object[][] data = this.crearMatrizDeNotas();
+		 data= this.crearMatrizDeNotas();
 	     String[] columnNames = {"Numero de Examen","Nota En Letras","Nota Numerica "};
 	    return new JTable(data, columnNames);
 	}
 	public Object[][] crearMatrizDeNotas(){
-		java.util.List<Nota> notas = EstudiantesDB.obtenerNotas(legajoSeleccionado);
+		notas =  estudiantes.obtenerNotas(legajoSeleccionado);
 		Object[][] matriz = {
 				{notas.get(0).getNroExamen(),notas.get(0).getDescrLetras(),notas.get(0).getValor()},
 				{notas.get(1).getNroExamen(),notas.get(1).getDescrLetras(),notas.get(1).getValor()},
@@ -140,11 +143,14 @@ public class Pantalla2OK extends JFrame implements Action {
         int numCols = table.getColumnCount();
         javax.swing.table.TableModel model = table.getModel();
 
+        
+        
         System.out.println("Value of data: ");
         for (int i=0; i < numRows; i++) {
-            System.out.print("    row " + i + ":");
+            System.out.print("   fila  " + i + ":");
             for (int j=0; j < numCols; j++) {
                 System.out.print("  " + model.getValueAt(i, j));
+                data[i][j]=model.getValueAt(i,j);
             }
             System.out.println();
         }
@@ -169,6 +175,8 @@ public class Pantalla2OK extends JFrame implements Action {
 	public void setLegajoSeleccionado(int legajoSeleccionado) {
 		this.legajoSeleccionado = legajoSeleccionado;
 		alumnoSeleccionado=EstudiantesDB.buscarEstudiante(legajoSeleccionado);
+		estudiantes=pantallaSiguiente.getEstudiantes(); 
+		
 	}
 
 	@Override
