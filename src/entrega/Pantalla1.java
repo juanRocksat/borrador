@@ -1,5 +1,4 @@
 package entrega;
-
 import java.awt.BorderLayout;
 import java.awt.EventQueue;
 
@@ -26,6 +25,8 @@ public class Pantalla1 extends JFrame implements ItemListener
 	private JPanel contentPane;
 	public Pantalla1 pantallaActual=this;
 	int legajoSeleccionado=1;
+	
+	EstudiantesDB estudiantes = new EstudiantesDB();
 
 	/**
 	 * Launch the application.
@@ -54,7 +55,7 @@ public class Pantalla1 extends JFrame implements ItemListener
 	 */
 	public Pantalla1()
 	{
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+//		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100,100,450,300);
 		contentPane=new JPanel();
 		contentPane.setBorder(new EmptyBorder(5,5,5,5));
@@ -66,6 +67,9 @@ public class Pantalla1 extends JFrame implements ItemListener
 		gbl_contentPane.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
 		contentPane.setLayout(gbl_contentPane);
 		comboBox = new JComboBox();
+		
+		comboBox.addItemListener(this);
+		
 		GridBagConstraints gbc_comboBox = new GridBagConstraints();
 		gbc_comboBox.insets = new Insets(0, 0, 5, 0);
 		gbc_comboBox.fill = GridBagConstraints.HORIZONTAL;
@@ -76,11 +80,13 @@ public class Pantalla1 extends JFrame implements ItemListener
 		JButton btnSiguiente = new JButton("Siguiente");
 		btnSiguiente.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-
-				pantallaSiguiente=new Pantalla2OK();
+				if(pantallaSiguiente==null || pantallaSiguiente.isActive())pantallaSiguiente=new Pantalla2OK();
+//				pantallaSiguiente=new Pantalla2OK();
+				pantallaSiguiente.setVisible(true);
 				pantallaSiguiente.toFront();//al frente
 				pantallaSiguiente.setPantallaSiguiente(pantallaActual);
-				pantallaSiguiente.setLegajoSeleccionado(legajoSeleccionado);		
+				pantallaSiguiente.setLegajoSeleccionado(legajoSeleccionado);
+				
 			}
 		});
 		GridBagConstraints gbc_btnSiguiente = new GridBagConstraints();
@@ -89,14 +95,19 @@ public class Pantalla1 extends JFrame implements ItemListener
 		contentPane.add(btnSiguiente, gbc_btnSiguiente);
 		agregarDatosAComboBoxPorLegajo();
 		setTitle("Pantalla1");
+		
+		
 	}
 	@Override
 	public void itemStateChanged(ItemEvent e)
 	{
 		if(e.getSource()==comboBox){
-			legajoSeleccionado=(int)comboBox.getSelectedItem();
+//			legajoSeleccionado=Integer.parseUnsignedInt(comboBox.getSelectedItem().toString().charAt(0));
+			legajoSeleccionado=Integer.parseInt(comboBox.getSelectedItem().toString());
+			
 		}
 	}
+	
 	private void agregarDatosAComboBox()
 	{
 		for(int i=1;i<=3;i++){
@@ -106,7 +117,9 @@ public class Pantalla1 extends JFrame implements ItemListener
 	private void agregarDatosAComboBoxPorLegajo()
 	{
 		for(int i=1;i<=3;i++){
-			comboBox.addItem(EstudiantesDB.buscarEstudiante(i).getLegajo());
+//			comboBox.addItem(estudiantes.buscarEstudiante(i).getLegajo() +" - "+ estudiantes.buscarEstudiante(i).getNombre());
+			comboBox.addItem(estudiantes.buscarEstudiante(i).getLegajo());
+			
 		}
 	}
 

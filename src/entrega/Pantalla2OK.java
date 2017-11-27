@@ -60,7 +60,7 @@ public class Pantalla2OK extends JFrame implements Action {
 		setBounds(100, 100, 550, 300);
 		getContentPane().setLayout(null);
 		
-		
+//		setLegajoSeleccionado(pantallaSiguiente.getLegajoSeleccionado());
 		
 		
 		scrollPane.setBounds(54, 39, 295, 150);
@@ -80,7 +80,8 @@ public class Pantalla2OK extends JFrame implements Action {
 		btnSiguiente.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try {
-					pantallaSiguiente.toFront();
+//					pantallaSiguiente.toFront();
+					pantallaSiguiente.setVisible(true);
 				} catch (Exception e2) {
 					JOptionPane.showMessageDialog(null, "Primero se debe abrir la pantalla1");
 				}
