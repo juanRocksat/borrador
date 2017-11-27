@@ -29,6 +29,8 @@ public class Pantalla1OK extends JFrame implements ItemListener
 	public EstudiantesDB estudiantes= new EstudiantesDB();
 	public Estudiante alumno =null;
 	public int legajo =1;
+	
+	public Pantalla2OK pantallaSiguiente=null;
 	/**
 	 * Launch the application.
 	 */
@@ -97,5 +99,11 @@ public class Pantalla1OK extends JFrame implements ItemListener
 			comboBox.addItem(estudiantes.buscarEstudiante(i).getLegajo());
 			
 		}
+	}
+	private void abrirPantalla2()
+	{
+		if(pantallaSiguiente==null)pantallaSiguiente=new Pantalla2OK(legajo);
+		
+
 	}
 }
