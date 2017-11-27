@@ -32,12 +32,10 @@ public class Pantalla2OK extends JFrame implements Action {
 
 	private JPanel contentPane;
 	
-	public Pantalla1 pantallaSiguiente;
+	public Pantalla1 pantallaAnterior;
 	public int legajoSeleccionado=0;
 	private JTable table;
 	
-	Estudiante alumnoSeleccionado;
-	EstudiantesDB estudiantes ;
 	Object[][] data =null;
 	public java.util.List<Nota> notas;
 
@@ -87,8 +85,8 @@ public class Pantalla2OK extends JFrame implements Action {
 		btnSiguiente.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try {
-					pantallaSiguiente.toFront();
-					pantallaSiguiente.setVisible(true);
+					pantallaAnterior.toFront();
+					pantallaAnterior.setVisible(true);
 					printDebugData(table);
 				} catch (Exception e2) {
 					JOptionPane.showMessageDialog(null, "Primero se debe abrir la pantalla1");
@@ -98,7 +96,7 @@ public class Pantalla2OK extends JFrame implements Action {
 		btnSiguiente.setBounds(178, 216, 89, 23);
 		getContentPane().add(btnSiguiente);
 		
-		JLabel lblBaseDeDatos = new JLabel("Notas de : "+ alumnoSeleccionado.getNombre());
+		JLabel lblBaseDeDatos = new JLabel("Notas de : "+ pantallaAnterior.getEstudianteSeleccionado().getNombre());
 		lblBaseDeDatos.setBounds(100, 11, 110, 14);
 		getContentPane().add(lblBaseDeDatos);
 	}
@@ -128,7 +126,7 @@ public class Pantalla2OK extends JFrame implements Action {
 	    return new JTable(data, columnNames);
 	}
 	public Object[][] crearMatrizDeNotas(){
-		notas =  estudiantes.obtenerNotas(legajoSeleccionado);
+		notas = pantallaAnterior.getEstudianteSeleccionado().getNotas();
 		Object[][] matriz = {
 				{notas.get(0).getNroExamen(),notas.get(0).getDescrLetras(),notas.get(0).getValor()},
 				{notas.get(1).getNroExamen(),notas.get(1).getDescrLetras(),notas.get(1).getValor()},
@@ -161,11 +159,11 @@ public class Pantalla2OK extends JFrame implements Action {
 	}
 
 	public Pantalla1 getPantallaSiguiente() {
-		return pantallaSiguiente;
+		return pantallaAnterior;
 	}
 
 	public void setPantallaSiguiente(Pantalla1 pantallaSiguiente) {
-		this.pantallaSiguiente = pantallaSiguiente;
+		this.pantallaAnterior = pantallaSiguiente;
 	}
 
 	public int getLegajoSeleccionado() {
@@ -174,8 +172,7 @@ public class Pantalla2OK extends JFrame implements Action {
 
 	public void setLegajoSeleccionado(int legajoSeleccionado) {
 		this.legajoSeleccionado = legajoSeleccionado;
-		alumnoSeleccionado=EstudiantesDB.buscarEstudiante(legajoSeleccionado);
-		estudiantes=pantallaSiguiente.getEstudiantes(); 
+//		estudiantes=pantallaSiguiente.getEstudiantes(); 
 		
 	}
 
