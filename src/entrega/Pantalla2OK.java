@@ -1,6 +1,7 @@
 package entrega;
 
 import java.awt.BorderLayout;
+import java.awt.Dimension;
 import java.awt.EventQueue;
 import java.awt.List;
 
@@ -12,14 +13,21 @@ import algoii.tp.db.estudiantes.EstudiantesDB;
 import algoii.tp.db.estudiantes.Nota;
 
 import javax.swing.JScrollPane;
+import javax.swing.Action;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
 import java.awt.event.ActionEvent;
 
-public class Pantalla2OK extends JFrame {
+@SuppressWarnings("serial")
+public class Pantalla2OK extends JFrame implements Action {
 
 	private JPanel contentPane;
 	
@@ -27,6 +35,7 @@ public class Pantalla2OK extends JFrame {
 	public int legajoSeleccionado=1;
 	private JTable table;
 
+	JScrollPane scrollPane = new JScrollPane(table);
 	/**
 	 * Launch the application.
 	 */
@@ -48,17 +57,31 @@ public class Pantalla2OK extends JFrame {
 	 */
 	public Pantalla2OK() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 450, 300);
+		setBounds(100, 100, 550, 300);
 		getContentPane().setLayout(null);
+		
+		
+		
+		
+		scrollPane.setBounds(54, 39, 295, 150);
+		getContentPane().add(scrollPane);
+		
+		table = crearTabla();
+		scrollPane.setViewportView(table);
+		contentPane = new JPanel();
+		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+		setContentPane(contentPane);
+		contentPane.setLayout(null);
+		
+		
+		verSeteoDeTabla();
 		
 		JButton btnSiguiente = new JButton("Siguiente");
 		btnSiguiente.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try {
 					pantallaSiguiente.toFront();
-
 				} catch (Exception e2) {
-					// TODO: handle exception
 					JOptionPane.showMessageDialog(null, "Primero se debe abrir la pantalla1");
 				}
 			}
@@ -69,23 +92,26 @@ public class Pantalla2OK extends JFrame {
 		JLabel lblBaseDeDatos = new JLabel("Base de Datos");
 		lblBaseDeDatos.setBounds(100, 11, 89, 14);
 		getContentPane().add(lblBaseDeDatos);
-		
-		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(54, 39, 295, 150);
-		getContentPane().add(scrollPane);
-		
-		table = crearTabla();
-		scrollPane.setViewportView(table);
-		contentPane = new JPanel();
-		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
-		setContentPane(contentPane);
-		contentPane.setLayout(null);
-		table.setAutoResizeMode(MAXIMIZED_VERT);
-		
-		table.updateUI();
-		if(true){
-			printDebugData(table);
-		}
+	}
+	
+	private void verSeteoDeTabla() {
+		table.setPreferredScrollableViewportSize(new Dimension(500, 75));
+        if (true){
+            table.addMouseListener(new MouseAdapter() {
+                public void mouseClicked(MouseEvent e) {
+                    printDebugData(table);
+                }
+            });
+        }
+        //Create the scroll pane and add the table to it. 
+//        JScrollPane scrollPane1 = new JScrollPane(table);
+        //Add the scroll pane to this window.
+//        setContentPane(scrollPane);   si lo descomento superpondra otro scrollPane y no se vera el label y el boton 
+        addWindowListener(new WindowAdapter() {
+            public void windowClosing(WindowEvent e) {
+                System.exit(0);
+            }
+        });
 	}
 	private JTable crearTabla() {
 		 Object[][] data = this.crearMatrizDeNotas();
@@ -136,5 +162,23 @@ public class Pantalla2OK extends JFrame {
 
 	public void setLegajoSeleccionado(int legajoSeleccionado) {
 		this.legajoSeleccionado = legajoSeleccionado;
+	}
+
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public Object getValue(String key) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void putValue(String key, Object value) {
+		// TODO Auto-generated method stub
+		
 	}
 }
