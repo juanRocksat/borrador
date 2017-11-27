@@ -9,6 +9,7 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
+import algoii.tp.db.estudiantes.Estudiante;
 import algoii.tp.db.estudiantes.EstudiantesDB;
 import algoii.tp.db.estudiantes.Nota;
 
@@ -34,6 +35,8 @@ public class Pantalla2OK extends JFrame implements Action {
 	public Pantalla1 pantallaSiguiente;
 	public int legajoSeleccionado=1;
 	private JTable table;
+	
+	Estudiante alumnoSeleccionado;
 
 	JScrollPane scrollPane = new JScrollPane(table);
 	/**
@@ -43,7 +46,7 @@ public class Pantalla2OK extends JFrame implements Action {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					Pantalla2OK frame = new Pantalla2OK();
+					Pantalla2OK frame = new Pantalla2OK(2);
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -54,13 +57,14 @@ public class Pantalla2OK extends JFrame implements Action {
 
 	/**
 	 * Create the frame.
+	 * @param legajoSeleccionado2 
 	 */
-	public Pantalla2OK() {
+	public Pantalla2OK(int legajoSeleccionado2) {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 550, 300);
 		getContentPane().setLayout(null);
 		
-//		setLegajoSeleccionado(pantallaSiguiente.getLegajoSeleccionado());
+		setLegajoSeleccionado(legajoSeleccionado2);
 		
 		
 		scrollPane.setBounds(54, 39, 295, 150);
@@ -82,6 +86,7 @@ public class Pantalla2OK extends JFrame implements Action {
 				try {
 //					pantallaSiguiente.toFront();
 					pantallaSiguiente.setVisible(true);
+					printDebugData(table);
 				} catch (Exception e2) {
 					JOptionPane.showMessageDialog(null, "Primero se debe abrir la pantalla1");
 				}
@@ -90,8 +95,8 @@ public class Pantalla2OK extends JFrame implements Action {
 		btnSiguiente.setBounds(178, 216, 89, 23);
 		getContentPane().add(btnSiguiente);
 		
-		JLabel lblBaseDeDatos = new JLabel("Base de Datos");
-		lblBaseDeDatos.setBounds(100, 11, 89, 14);
+		JLabel lblBaseDeDatos = new JLabel("Notas de : "+ alumnoSeleccionado.getNombre());
+		lblBaseDeDatos.setBounds(100, 11, 110, 14);
 		getContentPane().add(lblBaseDeDatos);
 	}
 	
@@ -163,6 +168,7 @@ public class Pantalla2OK extends JFrame implements Action {
 
 	public void setLegajoSeleccionado(int legajoSeleccionado) {
 		this.legajoSeleccionado = legajoSeleccionado;
+		alumnoSeleccionado=EstudiantesDB.buscarEstudiante(legajoSeleccionado);
 	}
 
 	@Override

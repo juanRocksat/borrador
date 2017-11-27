@@ -80,7 +80,7 @@ public class Pantalla1 extends JFrame implements ItemListener
 		JButton btnSiguiente = new JButton("Siguiente");
 		btnSiguiente.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				if(pantallaSiguiente==null || pantallaSiguiente.isActive())pantallaSiguiente=new Pantalla2OK();
+				if(pantallaSiguiente==null || pantallaSiguiente.isActive())pantallaSiguiente=new Pantalla2OK(legajoSeleccionado);
 //				pantallaSiguiente=new Pantalla2OK();
 				pantallaSiguiente.setVisible(true);
 				pantallaSiguiente.toFront();//al frente
