@@ -28,8 +28,8 @@ public class Pantalla_1 extends JFrame implements ItemListener
 	public JComboBox comboBox ;
 	
 	public EstudiantesDB estudiantes= new EstudiantesDB();
-	public Estudiante alumno =null;
-	public int legajo =1;
+	public static Estudiante alumno =EstudiantesDB.buscarEstudiante(3);
+	public static int legajo =1; // que esto sea statico quito errores de la nada 
 	
 	public Pantalla_2 pantallaSiguiente=null;
 	public Pantalla_1 pantallaActual=this;
@@ -72,13 +72,17 @@ public class Pantalla_1 extends JFrame implements ItemListener
 		btnSiguiente.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if(e.getSource()==btnSiguiente){
+					
 					legajo=Integer.parseInt(comboBox.getSelectedItem().toString());
 					alumno=estudiantes.buscarEstudiante(legajo);
-					resolverBasesDeDatos(legajo);
+					
 					
 					mostrar("legajo seleccionado es : " + legajo+" - "+alumno.getNombre());
 					if(pantallaSiguiente==null )abrirPantallaSiguiente();
 					pantallaSiguiente.toFront();
+					
+					setearAlumno(legajo);
+					resolverActualizacionDeDatos();
 				}
 				
 			}
@@ -101,12 +105,19 @@ public class Pantalla_1 extends JFrame implements ItemListener
 			legajo=Integer.parseInt(comboBox.getSelectedItem().toString());
 			alumno=estudiantes.buscarEstudiante(legajo);
 			mostrar("legajo seleccionado es : " + legajo);
-			resolverBasesDeDatos(legajo);
+			setearAlumno(legajo);
+			resolverActualizacionDeDatos();
 		}
 	}
 	private void mostrar(Object s) {
 		System.out.println(s);
 	}
+	private void resolverActualizacionDeDatos() {
+		if(pantallaSiguiente!=null){
+			pantallaSiguiente.actualizarTabla();
+		}
+	}
+	
 	private void agregarDatosAComboBoxPorLegajo()
 	{
 		for(int i=1;i<=3;i++){
@@ -120,7 +131,7 @@ public class Pantalla_1 extends JFrame implements ItemListener
 		pantallaSiguiente.setVisible(true);
 		 pantallaSiguiente.setPantallaAnterior(pantallaActual);
 	}
-	private void resolverBasesDeDatos(int numeroSeleccionado) {
+	private void setearAlumno(int numeroSeleccionado) {
 		setAlumno(estudiantes.buscarEstudiante(numeroSeleccionado));
 	}
 //	private void abrirPantalla2()

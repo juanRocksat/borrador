@@ -1,6 +1,7 @@
 package entrega;
 
 import java.awt.BorderLayout;
+import java.awt.Dimension;
 import java.awt.EventQueue;
 
 import javax.swing.JFrame;
@@ -16,6 +17,10 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.util.List;
 import java.awt.event.ActionEvent;
 
@@ -28,6 +33,8 @@ public class Pantalla_2 extends JFrame {
 	
 	public Object[][] data; 
 	public  List<Nota> notas;
+	
+	public Pantalla_2 pantallaActual = this;
 
 	/**
 	 * Launch the application.
@@ -56,7 +63,7 @@ public class Pantalla_2 extends JFrame {
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
-		JLabel lblNotasDe = new JLabel("Notas de : ");
+		JLabel lblNotasDe = new JLabel("Notas de : "+alumnoSeleccionado().getNombre());
 		lblNotasDe.setBounds(35, 11, 200, 14);
 		contentPane.add(lblNotasDe);
 		
@@ -73,12 +80,14 @@ public class Pantalla_2 extends JFrame {
 		JButton botonAnterior = new JButton("Siguiente");
 		botonAnterior.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				pantallaAnterior.toFront();
+				printDebugData(table);
 			}
 		});
 		botonAnterior.setBounds(68, 204, 145, 23);
 		contentPane.add(botonAnterior);
+		actualizarTabla();
 		
-	
 	}
 	private JTable crearTabla() {
 		 data= crearMatrizDeNotas();
@@ -120,7 +129,54 @@ public class Pantalla_2 extends JFrame {
 	private int legajoSeleccionado() {
 		return pantallaAnterior.getLegajo();
 	}
+	public void setLegajoSeleccionado(int legajo){
+		pantallaAnterior.setLegajo(legajo);
+	}
 	
-	
+	void actualizarTabla() {	
+		table.setPreferredScrollableViewportSize(new Dimension(500, 75));
+        if (true){
+            table.addMouseListener(new MouseAdapter() {
+                public void mouseClicked(MouseEvent e) {
+                    printDebugData(table);
+                }
+            });
+        }
+        //Create the scroll pane and add the table to it. 
+//        JScrollPane scrollPane1 = new JScrollPane(table);
+        //Add the scroll pane to this window.
+//        setContentPane(scrollPane);   si lo descomento superpondra otro scrollPane y no se vera el label y el boton 
+        addWindowListener(new WindowAdapter() {
+            public void windowClosing(WindowEvent e) {
+                System.exit(0);
+            }
+        });
+	}
+	@SuppressWarnings("null")
+	private void printDebugData(JTable table) {
+        int numRows = table.getRowCount();
+        int numCols = table.getColumnCount();
+        javax.swing.table.TableModel model = table.getModel();
+
+        
+        List<Nota> notasNuevas =null;Object nroExamen = null,valor = null;String letras = null; 
+        System.out.println("Value of data: ");
+        for (int i=0; i < numRows; i++) {
+            System.out.print("   fila  " + i + ":");
+            for (int j=0; j < numCols; j++) {
+                System.out.print("  " + model.getValueAt(i, j));
+                data[i][j]=model.getValueAt(i,j);
+                if(i==1)letras=model.getValueAt(i, j).toString();
+                if(i==0)nroExamen=Integer.parseInt( model.getValueAt(i, j).toString());
+                if(i==2)valor=Integer.parseInt( model.getValueAt(i, j).toString());            
+            }
+            System.out.println();
+            notasNuevas.add(new Nota((int)nroExamen, letras,(int) valor));
+        }
+        System.out.println("--------------------------");
+        
+        estudiantes().modificarNotasEstudiante(legajoSeleccionado(), notasNuevas);
+        setTable(crearTabla());
+	}
 	
 }
