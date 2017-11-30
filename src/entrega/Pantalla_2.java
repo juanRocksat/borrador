@@ -27,7 +27,7 @@ import java.awt.event.ActionEvent;
 public class Pantalla_2 extends JFrame {
 
 	private JPanel contentPane;
-	private JTable table;
+	private static  JTable table;
 	
 	public Pantalla_1 pantallaAnterior = new Pantalla_1();//seteado para  probar 
 	
@@ -37,6 +37,8 @@ public class Pantalla_2 extends JFrame {
 	public Pantalla_2 pantallaActual = this;
 	
 	JScrollPane scrollPane =null;//= new JScrollPane(table); 
+	
+	List<Nota> notasNuevasModificadas =null;
 
 	/**
 	 * Launch the application.
@@ -81,21 +83,22 @@ public class Pantalla_2 extends JFrame {
 		scrollPane.setViewportView(table); // 22:36
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5)); // 22:36
 	
-		
-		capturarEventoEnTabla();
-		
-		
+	
 		
 		JButton botonAnterior = new JButton("Siguiente");
 		botonAnterior.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				pantallaAnterior.toFront();
-				ActualizarEImprimirTabla(table);
+				actualizarYMostrarTabla();
 			}
 		});
 		botonAnterior.setBounds(68, 204, 145, 23);
 		contentPane.add(botonAnterior);
 		
+		
+		capturarEventoEnTabla();
+//		
+	
 		
 	}
 	private JTable crearTabla() {
@@ -147,7 +150,7 @@ public class Pantalla_2 extends JFrame {
         if (true){
             table.addMouseListener(new MouseAdapter() {
                 public void mouseClicked(MouseEvent e) {
-                    ActualizarEImprimirTabla(table);
+                    actualizarYMostrarTabla();
                 }
             });
         }
@@ -161,13 +164,15 @@ public class Pantalla_2 extends JFrame {
             }
         });
 	}
-	private void ActualizarEImprimirTabla(JTable table) {
+//	@SuppressWarnings({ "unused", "null" })
+//	@SuppressWarnings("null")
+	private void actualizarYMostrarTabla(){
         int numRows = table.getRowCount();
         int numCols = table.getColumnCount();
         javax.swing.table.TableModel model = table.getModel();
 
         
-        List<Nota> notasNuevas =null;Object nroExamen = null,valor = null;String letras = null; 
+        
 //        System.out.println("Value of data: ");
 //        for (int i=0; i < numRows; i++) {
 //            System.out.print("   fila  " + i + ":");
@@ -181,18 +186,31 @@ public class Pantalla_2 extends JFrame {
 //            System.out.println();
 //            notasNuevas.add(new Nota((int)nroExamen, letras,(int) valor));
 //        }
+        int nroExamen =0,valor = 0;String letras =""; 
+
         for (int i=0; i < numRows; i++) {
             System.out.print("    row " + i + ":");
             for (int j=0; j < numCols; j++) {
                 System.out.print("  " + model.getValueAt(i, j));
+//                if(j==0)nroExamen=Integer.parseInt(model.getValueAt(i, j).toString());
+                if(j==0)nroExamen=Integer.valueOf( model.getValueAt(i, j).toString());
+                
+                if(j==1)letras= model.getValueAt(i, j).toString();
+//                if(j==2)valor=Integer.parseInt(model.getValueAt(i, j).toString());         
+                if(j==2)valor=Integer.valueOf( model.getValueAt(i, j).toString());                     
             }
             System.out.println();
+            notasNuevasModificadas.add(new Nota(nroExamen, letras, valor));
+//            mostrar(notasNuevas.get(i).toString());
         }
         
-        System.out.println("--------------------------");
+        System.out.println("-------------------------------------");
         
 //        estudiantes().modificarNotasEstudiante(legajoSeleccionado(), notasNuevas);
 //        setTable(crearTabla());
+	}
+	private void mostrar(Object s) {
+		System.out.println(s);
 	}
 	
 }
